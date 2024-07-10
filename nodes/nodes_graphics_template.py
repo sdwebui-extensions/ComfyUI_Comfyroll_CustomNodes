@@ -12,10 +12,12 @@ from server import PromptServer, BinaryEventTypes
 from ..categories import icons
 from ..config import color_mapping, COLORS
 from .functions_graphics import *                            
-from .functions_upscale import apply_resize_image                                 
+from .functions_upscale import apply_resize_image    
+import folder_paths                             
 
 font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
 file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
+file_list.extend(folder_paths.get_filename_list("fonts"))
 
 #---------------------------------------------------------------------------------------------------------------------#
         
@@ -30,8 +32,6 @@ class CR_SimpleMemeTemplate:
     @classmethod
     def INPUT_TYPES(s):
 
-        font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
-        file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
         bar_opts = ["no bars", "top", "bottom", "top and bottom"]
         simple_meme_presets = ["custom",
                                "One Does Not Simply ... MEME IN COMFY",
@@ -104,6 +104,8 @@ class CR_SimpleMemeTemplate:
             #font_file = "fonts\\" + str(font_name)
             font_file = os.path.join("fonts", font_name)
             resolved_font_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), font_file)
+            if not os.path.exists(resolved_font_path):
+                resolved_font_path = folder_paths.get_full_path("fonts", font_name)
         
             # Create the drawing context
             draw = ImageDraw.Draw(result_image)
@@ -178,10 +180,7 @@ class CR_SimpleBanner:
     
     @classmethod
     def INPUT_TYPES(s):
-
-        font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
-        file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]     
-        
+         
         return {"required": {
                     "image": ("IMAGE",),
                     #"image_opacity": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.1}),
@@ -231,6 +230,8 @@ class CR_SimpleBanner:
             # Define font settings
             font_file = os.path.join("fonts", font_name)
             resolved_font_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), font_file)
+            if not os.path.exists(resolved_font_path):
+                resolved_font_path = folder_paths.get_full_path("fonts", font_name)
         
             # Create the drawing context
             draw = ImageDraw.Draw(back_image)
@@ -392,9 +393,6 @@ class CR_SimpleImageCompare:
 
     @classmethod
     def INPUT_TYPES(s):
-
-        font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
-        file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
 
         return {"required": {
                     "text1": ("STRING", {"multiline": True, "default": "text"}),

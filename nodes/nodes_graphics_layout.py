@@ -11,6 +11,11 @@ from ..categories import icons
 from ..config import color_mapping, COLORS
 from ..config import iso_sizes
 from .functions_graphics import * 
+import folder_paths
+
+font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
+file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
+file_list.extend(folder_paths.get_filename_list("fonts"))
 
 #---------------------------------------------------------------------------------------------------------------------#
         
@@ -24,9 +29,6 @@ class CR_PageLayout:
 
     @classmethod
     def INPUT_TYPES(s):
-
-        font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
-        file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
 
         layout_options = ["header", "footer", "header and footer", "no header or footer"]               
         
@@ -131,9 +133,6 @@ class CR_SimpleTitles:
 
     @classmethod
     def INPUT_TYPES(s):
-
-        font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
-        file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
 
         layout_options = ["header", "footer", "header and footer", "no header or footer"]               
         
@@ -420,9 +419,6 @@ class CR_SimpleTextPanel:
 
     @classmethod
     def INPUT_TYPES(s):
-    
-        font_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "fonts")       
-        file_list = [f for f in os.listdir(font_dir) if os.path.isfile(os.path.join(font_dir, f)) and f.lower().endswith(".ttf")]
 
         return {"required": {
                 "panel_width": ("INT", {"default": 512, "min": 8, "max": 4096}),

@@ -206,8 +206,7 @@ class CR_XYFromFolder:
     @classmethod
     def INPUT_TYPES(cls) -> dict[str, t.Any]:
     
-        input_dir = folder_paths.output_directory
-        image_folder = [name for name in os.listdir(input_dir) if os.path.isdir(os.path.join(input_dir,name))] 
+        image_folder = ["Comfyroll_XY_Grid"]
         
         return {"required":
                     {"image_folder": (sorted(image_folder), ),
@@ -289,8 +288,7 @@ class CR_XYSaveGridImage:
     @classmethod
     def INPUT_TYPES(cls):
     
-        output_dir = folder_paths.output_directory
-        output_folders = [name for name in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir,name))]
+        output_folders = ["Comfyroll_XY_Grid"]
     
         return {
             "required": {"mode": (["Save", "Preview"],),
@@ -316,6 +314,11 @@ class CR_XYSaveGridImage:
         
         output_dir = folder_paths.get_output_directory()  
         out_folder = os.path.join(output_dir, output_folder)
+        if not os.path.exists(out_folder):
+            try:
+                os.makedirs(out_folder, exist_ok=True)
+            except:
+                pass
 
         # Set the output path
         if output_path != '':

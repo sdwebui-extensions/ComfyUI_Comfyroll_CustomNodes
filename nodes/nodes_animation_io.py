@@ -178,7 +178,13 @@ class CR_OutputFlowFrames:
     def INPUT_TYPES(cls):
     
         output_dir = folder_paths.output_directory
-        output_folders = [name for name in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir,name)) and len(os.listdir(os.path.join(output_dir,name))) != 0]
+        names = ["CR_Output_Flow_Frames"]
+        try:
+            os.makedirs(os.path.join(output_dir, "CR_Output_Flow_Frames"), exist_ok=True)
+        except:
+            names = []
+            pass
+        output_folders = [name for name in names if os.path.isdir(os.path.join(output_dir,name)) and len(os.listdir(os.path.join(output_dir,name))) != 0]
     
         return {
             "required": {"output_folder": (sorted(output_folders), ),
